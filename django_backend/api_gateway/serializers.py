@@ -19,3 +19,8 @@ class MyTokenPairObtainSerializer(TokenObtainPairSerializer):
             token["tenant_id"] = None
         
         return token
+    
+
+
+class UserQuerySerializer(serializers.Serializer):
+    question = serializers.CharField(max_length = 1000)
