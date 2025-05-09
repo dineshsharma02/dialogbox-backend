@@ -34,7 +34,10 @@ class UserQueryView(TenantContextMixin, APIView):
 
 
         return Response({
+            "success": True,
+            "data":{
             "tenant":tenant.name,
             "question":question,
             "answer":f"You asked: '{question} - I'll answer this soon.'"
+            }
         })
