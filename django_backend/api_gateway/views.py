@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from .models import Tenant
 from .utils import TenantContextMixin
 from rest_framework.response import Response
-
+from .user_query_pipeline import process_user_query
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -31,13 +31,14 @@ class UserQueryView(TenantContextMixin, APIView):
         serializer.is_valid(raise_exception=True)
         tenant = self.get_tenant(request)
         question = serializer.validated_data['question']
-
+        result = process_user_query(question, tenant.id)
 
         return Response({
             "success": True,
-            "data":{
-            "tenant":tenant.name,
-            "question":question,
-            "answer":f"You asked: '{question} - I'll answer this soon.'"
+            "data": {
+                "tenant": tenant.name,
+                "query": result["query"],
+                "embedding": result["embedding"],
+                "retrieved_docs": result["results"]["documents"]
             }
         })
