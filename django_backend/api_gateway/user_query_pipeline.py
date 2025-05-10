@@ -1,12 +1,12 @@
 from .vector.chroma_service import query_documents
+from .embedding.embedding_service import embed_text
 
 def clean_query(text: str) -> str:
     return text.strip().lower()
 
 
 def embed_query(cleaned_text: str) -> list[float]:
-    # Replace this later with real embedding model
-    return [0.1, 0.2, 0.3]
+    return embed_text([cleaned_text], is_query=True)[0]
 
 
 
