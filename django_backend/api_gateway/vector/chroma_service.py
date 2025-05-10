@@ -1,10 +1,6 @@
 import chromadb
-from chromadb.config import Settings
 
-client = chromadb.Client(
-    chroma_db_impl="duckdb+parquet",
-    persist_directory="./chroma_store"
-)
+client = chromadb.PersistentClient(path="./chroma_store")
 
 
 collection = client.get_or_create_collection(name="faq_store")
