@@ -9,6 +9,32 @@ openrouter_api_base = "https://openrouter.ai/api/v1"
 
 DEFAULT_MODEL = "mistralai/mixtral-8x7b-instruct" 
 
+
+def build_prompt(query: str, context_docs: list[str]) -> str:
+    joined_context = "\n\n".join([f"- {doc}" for doc in context_docs])
+
+    return f"""
+You are a helpful customer support assistant.
+
+Your job is to answer the user's question **only using the provided context** below.
+if the answer is not in the context, reply with "I'm not sure based on current information."
+
+---
+Context:
+{joined_context}
+
+---
+User Question:
+{query}
+
+
+
+Respond in a friendly and clear tone.    
+"""
+
+
+
+
 def generate_answer(prompt:str, model:str = DEFAULT_MODEL):
     client = openai.OpenAI(
         api_key =openrouter_api_key,
