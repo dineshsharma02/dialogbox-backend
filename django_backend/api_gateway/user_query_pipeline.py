@@ -1,6 +1,6 @@
 from .vector.chroma_service import query_documents
 from .embedding.embedding_service import embed_text
-from api_gateway.retrieval.retrieval_service import retrieve_top_k_answers
+from api_gateway.retrieval.retrieval_service import retrieve_top_k_answers, rank_results
 
 from .cleaning.cleaning_service import clean_query
 
@@ -11,12 +11,11 @@ def embed_query(cleaned_text: str) -> list[float]:
 def process_user_query(question: str, tenant_id: int):
     cleaned = clean_query(question)
     retrieval = retrieve_top_k_answers(cleaned, tenant_id)
-    if not retrieval["matched_docs"]:
-        return {
-            "answer": "Sorry, I couldn't find anything relevant.",
-        }
+    ranked_results = rank_results(retrieval, threshold=0.75)
+    
     return {
-        "cleaned_query": cleaned,
+        "query": cleaned,
         "embedding": retrieval["query_embedding"],
-        "top_results": retrieval["matched_docs"]
+        "top_results": ranked_results,
+        "answer": ranked_results[0]["text"] if ranked_results else "Sorry, no relevant answer found."
     }

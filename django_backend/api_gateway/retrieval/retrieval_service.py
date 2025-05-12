@@ -11,3 +11,23 @@ def retrieve_top_k_answers(question:str, tenant_id: int, k=3):
         "matched_metadata": results["metadatas"][0],
         "distances": results["distances"][0]
     }
+
+
+def rank_results(results: dict, threshold: float = 0.75):
+    """
+    Ranks retrieved documents by distance score (lower = better),
+    filters out weak matches based on threshold.
+    """
+     
+    ranked = []
+    for doc, meta, dist, doc_id in zip(results["matched_docs"],results["matched_metadata"], results["distances"],results["matched_ids"]):
+        confidence = 1 - dist
+        if confidence>=threshold:
+            ranked.append({
+                "id": doc_id,
+                "text": doc,
+                "confidence": round(confidence, 4),
+                "source": meta.get("source", "unknown")
+            })
+    ranked.sort(key = lambda x: x[confidence], reverse=True)
+    return ranked
