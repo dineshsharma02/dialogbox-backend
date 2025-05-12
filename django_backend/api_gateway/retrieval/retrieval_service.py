@@ -29,5 +29,5 @@ def rank_results(results: dict, threshold: float = 0.75):
                 "confidence": round(confidence, 4),
                 "source": meta.get("source", "unknown")
             })
-    ranked.sort(key = lambda x: x[confidence], reverse=True)
+    ranked.sort(key = lambda x: x["confidence"], reverse=True)
     return ranked

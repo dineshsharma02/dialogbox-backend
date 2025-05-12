@@ -11,7 +11,7 @@ def embed_query(cleaned_text: str) -> list[float]:
 def process_user_query(question: str, tenant_id: int):
     cleaned = clean_query(question)
     retrieval = retrieve_top_k_answers(cleaned, tenant_id)
-    ranked_results = rank_results(retrieval, threshold=0.75)
+    ranked_results = rank_results(retrieval, threshold=0.4)
     
     return {
         "query": cleaned,

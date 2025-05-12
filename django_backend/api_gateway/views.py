@@ -36,9 +36,8 @@ class UserQueryView(TenantContextMixin, APIView):
         return Response({
             "success": True,
             "data": {
-                "tenant": tenant.id,
                 "query": result["query"],
-                "embedding": result["embedding"],
-                "retrieved_docs": result["results"]["documents"]
+                "matched_answers": result["top_results"],
+                "final_answer": result["answer"]
             }
         })
