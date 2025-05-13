@@ -1,21 +1,37 @@
 from .vector.chroma_service import query_documents
 from .embedding.embedding_service import embed_text
+from api_gateway.retrieval.retrieval_service import retrieve_top_k_answers, rank_results
+from api_gateway.llm.llm_service import build_prompt, generate_answer
 
-def clean_query(text: str) -> str:
-    return text.strip().lower()
+from .cleaning.cleaning_service import clean_query
 
 
 def embed_query(cleaned_text: str) -> list[float]:
     return embed_text([cleaned_text], is_query=True)[0]
 
-
-
 def process_user_query(question: str, tenant_id: int):
     cleaned = clean_query(question)
-    embedding = embed_query(cleaned)
-    results = query_documents(tenant_id, embedding)
+    retrieval = retrieve_top_k_answers(cleaned, tenant_id)
+    ranked_results = rank_results(retrieval, threshold=0.10)
+
+    if not ranked_results:
+        return {
+            "query": cleaned,
+            "answer": "Sorry, I couldn’t find any relevant answer based on current information.",
+            "context_used": [],
+            "status": "no_match"
+        }
+    
+
+    context_docs = [item["text"] for item in ranked_results]
+    prompt = build_prompt(query=cleaned, context_docs=context_docs)
+    final_answer = generate_answer(prompt)
+
+
     return {
         "query": cleaned,
-        "embedding": embedding,
-        "results": results
+        "answer": final_answer,
+        "context_used": context_docs,
+        "matched_results": ranked_results,
+        "status": "success"
     }
