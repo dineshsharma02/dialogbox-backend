@@ -42,7 +42,7 @@ class UserQueryView(TenantContextMixin, APIView):
             "latency":latency_ms,
             "data": {
                 "query": result["query"],
-                "matched_answers": result["top_results"],
+                "matched_answers": result["context_used"],
                 "final_answer": result["answer"]
             }
         })

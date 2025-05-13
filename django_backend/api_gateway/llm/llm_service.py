@@ -7,7 +7,7 @@ openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
 # print(openrouter_api_key)
 openrouter_api_base = "https://openrouter.ai/api/v1"
 
-DEFAULT_MODEL = "mistralai/mixtral-8x7b-instruct" 
+DEFAULT_MODEL = "meta-llama/llama-4-maverick:free" 
 
 
 def build_prompt(query: str, context_docs: list[str]) -> str:
@@ -21,7 +21,11 @@ if the answer is not in the context, reply with "I'm not sure based on current i
 
 ---
 Context:
-{joined_context}
+
+- You can pause your subscription if you have a premium+ plan of hotstar in normal plans pausing is not possible.
+
+
+- To reset your password, go to Account Settings > Reset Password.
 
 ---
 User Question:
