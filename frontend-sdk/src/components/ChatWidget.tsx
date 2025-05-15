@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 
 
-const API_URL = "http://localhost:8000/api/user/query"; // to be adjusted for prod
+const API_URL = "http://127.0.0.1:8000/user/query"; // to be adjusted for prod
 
 export const ChatWidget = () =>{
     type ChatMessage = {
@@ -13,8 +13,8 @@ export const ChatWidget = () =>{
     const [loading, setLoading] = useState(false);
     const chatBoxRef = useRef<HTMLDivElement>(null);
 
-    const tenantId = new URLSearchParams(window.location.search).get("t") || ""
-
+    // const tenantId = new URLSearchParams(window.location.search).get("t") || ""
+    const tenantId  = 2
     const sendMessage = async() =>{
         if (!input.trim()) return;
 
@@ -24,12 +24,13 @@ export const ChatWidget = () =>{
         setLoading(true);
         try{
             const res = await fetch(`${API_URL}?t=${tenantId}`,{
+               
                 method: "POST",
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify({question: input.trim()})
             });
             const data = await res.json();
-            const answer = data?.data?.answer || "Sorry, I couldn't find an answer.";
+            const answer = data?.data?.final_answer || "Sorry, I couldn't find an answer.";
             setMessages((prev) => [...prev, { sender: "bot", text: answer }]);
         }
         catch(err){
