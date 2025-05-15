@@ -44,29 +44,27 @@ export const ChatWidget = () =>{
 
     useEffect(()=>{
         chatBoxRef.current?.scrollTo(0, chatBoxRef.current.scrollHeight)
-    }, [messages])
+    }, [messages, loading])
 
     
 
 
     return (
     <div className="flex flex-col h-full w-full border rounded-lg shadow-md overflow-hidden font-sans">
-      <div className="bg-gray-800 text-white text-center py-2 text-sm">DialogBox Assistant</div>
+      <div className="bg-gray-500 text-white text-center py-2 text-sm">DialogBox Assistant</div>
 
       <div ref={chatBoxRef} className="flex-1 p-3 space-y-2 overflow-y-auto bg-gray-50">
         {messages.map((message: ChatMessage, i:number)=> (
             <div
-            key={i}
-            className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm shadow-md whitespace-pre-wrap ${
-                message.sender === "user"
-                ? "bg-blue-600 text-white ml-auto"
-                : "bg-gray-100 text-gray-900 mr-auto"
-            }`}
-            >
-
-    
-            {message.text}
-          </div>
+                key={i}
+                className={`w-fit max-w-[80%] px-4 py-2 rounded-2xl text-sm shadow-md whitespace-pre-wrap ${
+                    message.sender === "user"
+                    ? "bg-blue-600 text-white ml-auto"
+                    : "bg-gray-100 text-gray-900 mr-auto"
+                }`}
+                >
+                {message.text}
+            </div>
         ))}
         {loading && (
           <div className="text-gray-500 text-xs italic animate-pulse">Assistant is typing...</div>
@@ -78,13 +76,14 @@ export const ChatWidget = () =>{
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          autoFocus
           className="flex-1 text-sm px-3 py-2 border rounded-md focus:outline-none focus:ring"
           placeholder="Ask a question..."
         />
         <button
           onClick={sendMessage}
           disabled={loading}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm disabled:opacity-50"
+          className="px-4 py-2 bg-blue-500 text-white rounded-md text-sm disabled:opacity-50"
         >
           Send
         </button>
