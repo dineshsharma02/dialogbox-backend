@@ -14,7 +14,7 @@ export const ChatWidget = () =>{
     const chatBoxRef = useRef<HTMLDivElement>(null);
 
     // const tenantId = new URLSearchParams(window.location.search).get("t") || ""
-    const tenantId  = 2
+    const tenantId  = 1
     const sendMessage = async() =>{
         if (!input.trim()) return;
 
@@ -57,12 +57,14 @@ export const ChatWidget = () =>{
         {messages.map((message: ChatMessage, i:number)=> (
             <div
             key={i}
-            className={`max-w-[80%] px-4 py-2 rounded-lg text-sm ${
-              message.sender === "user"
-                ? "bg-blue-500 text-white ml-auto"
-                : "bg-gray-200 text-black mr-auto"
+            className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm shadow-md whitespace-pre-wrap ${
+                message.sender === "user"
+                ? "bg-blue-600 text-white ml-auto"
+                : "bg-gray-100 text-gray-900 mr-auto"
             }`}
-          >
+            >
+
+    
             {message.text}
           </div>
         ))}
