@@ -26,7 +26,7 @@ class HelloWorldView(TenantContextMixin,APIView):
     
 
 class UserQueryView(TenantContextMixin, APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def post(self, request):
         start_time = time.time()
         serializer = UserQuerySerializer(data = request.data)
