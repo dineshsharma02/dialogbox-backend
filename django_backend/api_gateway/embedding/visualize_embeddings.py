@@ -1,8 +1,10 @@
 import chromadb
 import os
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 CHROMA_PATH = os.path.join(BASE_DIR, "chroma_store")
+# CHROMA_PATH = "/Users/dineshsharma/Documents/chroma_store"
+
 client = chromadb.PersistentClient(CHROMA_PATH)
 # collection = client.get_or_create_collection(name="faq_store")
 # client.delete_collection(name="faq_store")
