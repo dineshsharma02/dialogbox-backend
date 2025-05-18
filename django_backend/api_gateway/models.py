@@ -9,5 +9,4 @@ class Tenant(models.Model):
     created_at = models.DateTimeField(auto_now_add = True) #audit/logging purpose
     user = models.OneToOneField(User, on_delete=models.CASCADE, null = True, blank = True)
 
-    def __str__(self):
-        return f"id ==> {self.id} name ==> {self.name}"
+    

@@ -9,21 +9,10 @@ from rest_framework.response import Response
 from .user_query_pipeline import process_user_query
 import time
 
-
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenPairObtainSerializer
 
 
-class HelloWorldView(TenantContextMixin,APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        tenant = self.get_tenant(request)
-        return Response({
-            "message": f"Hello, {tenant.name}",
-            "tenant_id": tenant.id
-        })
-    
 
 class UserQueryView(TenantContextMixin, APIView):
     # permission_classes = [IsAuthenticated]
@@ -36,6 +25,7 @@ class UserQueryView(TenantContextMixin, APIView):
         result = process_user_query(question, tenant.id)
         end_time = time.time()
         latency_ms = round((end_time - start_time) * 1000, 2)
+        # print(tenant.id)
 
         return Response({
             "success": True,
@@ -46,3 +36,4 @@ class UserQueryView(TenantContextMixin, APIView):
                 "final_answer": result["answer"]
             }
         })
+    

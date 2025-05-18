@@ -22,11 +22,7 @@ if the answer is not in the context, reply with "I'm not sure based on current i
 ---
 Context:
 
-- You can pause your subscription if you have a premium+ plan of hotstar in normal plans pausing is not possible.
-
-
-- To reset your password, go to Account Settings > Reset Password.
-
+{joined_context}
 ---
 User Question:
 {query}

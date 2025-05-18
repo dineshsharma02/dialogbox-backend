@@ -17,6 +17,7 @@ export const ChatWidget = () =>{
     const tenantId  = 1
     const sendMessage = async() =>{
         if (!input.trim()) return;
+        if (loading) return;
 
         const userMessage: ChatMessage = { sender: "user", text: input.trim() };
         setMessages((prev)=>[...prev, userMessage]);

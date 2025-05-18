@@ -10,5 +10,4 @@ class FAQ(models.Model):
     answer = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.tenant.name} - {self.question[:50]}"
+    
