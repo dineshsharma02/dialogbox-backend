@@ -9,9 +9,9 @@ services:
       - ./django_backend/chroma_store:/chroma/chroma
     entrypoint: uvicorn chromadb.app:app --host 0.0.0.0 --port 8001 --proxy-headers
 
-  embedding:
+  embedding_service:
     build:
-      context: ./django_backend/embedding
+      context: ./django_backend/embedding_service
     ports:
       - "9001:9001"
 
