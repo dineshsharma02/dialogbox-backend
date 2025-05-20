@@ -15,3 +15,11 @@ services:
     ports:
       - "9001:9001"
 
+  llm:
+    build:
+      context: ./django_backend/llm_service
+    ports:
+      - "9002:9002"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+
