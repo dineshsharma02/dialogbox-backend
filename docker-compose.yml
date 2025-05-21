@@ -1,13 +1,28 @@
-version: "3.9"
 
 services:
-  chroma:
-    image: ghcr.io/chroma-core/chroma:0.4.22
+
+
+  backend:
+    build:
+      context: ./django_backend
     ports:
-      - "8001:8001"
+      - "8000:8000"
     volumes:
-      - ./django_backend/chroma_store:/chroma/chroma
-    entrypoint: uvicorn chromadb.app:app --host 0.0.0.0 --port 8001 --proxy-headers
+      - ./django_backend:/app
+    env_file:
+      - .env
+    depends_on:
+      - chroma
+      - embedding_service
+      - llm
+  chroma:
+    image: ghcr.io/chroma-core/chroma:1.0.8
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./django_backend/chroma_store:/data
+
+    
 
   embedding_service:
     build:
