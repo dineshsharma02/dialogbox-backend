@@ -1,0 +1,40 @@
+
+services:
+
+
+  backend:
+    build:
+      context: ./django_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./django_backend:/app
+    env_file:
+      - .env
+    depends_on:
+      - chroma
+      - embedding_service
+      - llm
+  chroma:
+    image: ghcr.io/chroma-core/chroma:1.0.8
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./django_backend/chroma_store:/data
+
+    
+
+  embedding_service:
+    build:
+      context: ./django_backend/embedding_service
+    ports:
+      - "9001:9001"
+
+  llm:
+    build:
+      context: ./django_backend/llm_service
+    ports:
+      - "9002:9002"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+
