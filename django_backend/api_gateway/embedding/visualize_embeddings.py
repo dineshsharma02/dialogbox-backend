@@ -7,7 +7,7 @@ CHROMA_PATH = os.path.join(BASE_DIR, "chroma_store")
 
 client = chromadb.PersistentClient(CHROMA_PATH)
 # collection = client.get_or_create_collection(name="faq_store")
-# client.delete_collection(name="faq_store")
+client.delete_collection(name="faq_store")
 collection = client.get_or_create_collection(name="faq_store") 
 
 
