@@ -1,2 +1,6 @@
+import re
+
+
 def clean_query(text: str) -> str:
-    return text.strip().lower()
+    cleaned = re.sub(r"[^\w\s]", "", text.lower())
+    return cleaned

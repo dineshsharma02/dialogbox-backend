@@ -25,11 +25,15 @@ def add_documents(tenant_id: str, docs: list[str], embeddings: list[list[float]]
 
 
 def query_documents(tenant_id: int, query_embedding: list[float], top_k=3):
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=top_k,
-        where={"tenant_id": tenant_id}
-    )
+    try:
+        results = collection.query(
+            query_embeddings=[query_embedding],
+            n_results=top_k,
+            where={"tenant_id": tenant_id}
+        )
+    except Exception as e:
+        print("Chroma error: ",e)
+        return []
 
     if not results["documents"][0]:
         print(f"No match found for tenant {tenant_id}")

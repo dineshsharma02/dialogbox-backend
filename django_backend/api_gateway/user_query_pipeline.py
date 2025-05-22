@@ -4,6 +4,8 @@ from api_gateway.retrieval.retrieval_service import retrieve_top_k_answers, rank
 from api_gateway.llm.llm_service import build_prompt, generate_answer
 
 from .cleaning.cleaning_service import clean_query
+from django.http import JsonResponse
+
 
 
 def embed_query(cleaned_text: str) -> list[float]:
@@ -11,6 +13,13 @@ def embed_query(cleaned_text: str) -> list[float]:
 
 def process_user_query(question: str, tenant_id: int):
     cleaned = clean_query(question)
+    if not question or not isinstance(question, str) or len(question.strip()) < 3:
+        return JsonResponse({
+            "query": cleaned,
+            "answer": "Invalid or too short query.",
+            "status": "error",
+            "context_used": [],
+        }, status=400)
     retrieval = retrieve_top_k_answers(cleaned, tenant_id)
     ranked_results = rank_results(retrieval, threshold=0.50)
     # print(ranked_results)
