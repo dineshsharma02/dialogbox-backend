@@ -6,7 +6,7 @@ services:
     build:
       context: ./django_backend
     ports:
-      - "8000:8000"
+      - "8080:8000"
     volumes:
       - ./django_backend:/app
     env_file:
