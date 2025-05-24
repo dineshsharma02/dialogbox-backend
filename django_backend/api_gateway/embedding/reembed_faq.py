@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from api_gateway.embedding.embedding_pipeline import embed_faqs
 from admin_panel.models import FAQ
 
-client = chromadb.HttpClient(host="chroma", port=8002)
+client = chromadb.HttpClient(host="chroma", port=8000)
 # client.delete_collection("faq_store")
 # print("Connected to ChromaDB")
 # print("Heartbeat:", client.heartbeat())

@@ -2,6 +2,7 @@ import openai
 import os
 import requests
 from dotenv import load_dotenv
+from api_gateway.cleaning.cleaning_service import clean_llm_output
 
 load_dotenv()
 
@@ -58,7 +59,7 @@ def generate_answer(prompt: str, model: str = DEFAULT_MODEL):
                     {"role": "user", "content": prompt}
                 ]
             )
-            return response.choices[0].message.content.strip()
+            return clean_llm_output(response.choices[0].message.content.strip())
 
         except Exception as e:
             print(f"[OpenRouter error] {e}")

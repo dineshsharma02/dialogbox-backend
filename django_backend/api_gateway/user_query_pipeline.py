@@ -13,23 +13,23 @@ def embed_query(cleaned_text: str) -> list[float]:
 
 def process_user_query(question: str, tenant_id: int):
     cleaned = clean_query(question)
-    if not question or not isinstance(question, str) or len(question.strip()) < 3:
-        return JsonResponse({
-            "query": cleaned,
-            "answer": "Invalid or too short query.",
-            "status": "error",
-            "context_used": [],
-        }, status=400)
+    # if not question or not isinstance(question, str):
+    #     return JsonResponse({
+    #         "query": cleaned,
+    #         "answer": "Invalid or too short query.",
+    #         "status": "error",
+    #         "context_used": [],
+    #     }, status=400)
     retrieval = retrieve_top_k_answers(cleaned, tenant_id)
     ranked_results = rank_results(retrieval, threshold=0.50)
     # print(ranked_results)
-    if not ranked_results:
-        return {
-            "query": cleaned,
-            "answer": "Sorry, I couldn’t find any relevant answer based on current information.",
-            "context_used": [],
-            "status": "no_match"
-        }
+    # if not ranked_results:
+    #     return {
+    #         "query": cleaned,
+    #         "answer": "Sorry, I couldn’t find any relevant answer based on current information.",
+    #         "context_used": [],
+    #         "status": "no_match"
+    #     }
     
 
     context_docs = [item["text"] for item in ranked_results]
