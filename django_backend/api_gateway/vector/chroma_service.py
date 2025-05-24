@@ -8,37 +8,30 @@ load_dotenv(dotenv_path=env_path)
 
 
 
-# Detect runtime mode
-USE_HTTP = os.getenv("USE_CHROMA_HTTP", "false").lower() == "true"
-
-# Setup base Chroma client
-if USE_HTTP:
-    client = HttpClient(host="chroma", port=8000)  # Docker hostname
-    # print("using http client")
-else:
-    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-    CHROMA_PATH = os.path.join(BASE_DIR, "chroma_store")
-    print("Using local Chroma store at:", CHROMA_PATH)
-    client = PersistentClient(path=CHROMA_PATH)
-
-# BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-# CHROMA_PATH = os.path.join(BASE_DIR, "chroma_store")
-# print("Using local Chroma store at:", CHROMA_PATH)
-# client = PersistentClient(path=CHROMA_PATH)
+def get_chroma_collection():
+    USE_HTTP = os.getenv("USE_CHROMA_HTTP", "false").lower() == "true"
+    if USE_HTTP:
+        client = HttpClient(host="chroma", port=8000)  # Docker hostname
+    else:
+        BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+        CHROMA_PATH = os.path.join(BASE_DIR, "chroma_store")
+        print("Using local Chroma store at:", CHROMA_PATH)
+        client = PersistentClient(path=CHROMA_PATH)
+    collection = client.get_or_create_collection("faq_store")
+    return collection
 
 
-
-# Always work with the same collection
-collection = client.get_or_create_collection(name="faq_store")
 
 
 def add_documents(tenant_id: str, docs: list[str], embeddings: list[list[float]], ids: list[str]):
+    collection = get_chroma_collection()
     metadatas = [{"tenant_id": tenant_id} for _ in docs]
     collection.add(documents=docs, embeddings=embeddings, metadatas=metadatas, ids=ids)
     print("Documents added. Current count:", collection.count())
 
 
 def query_documents(tenant_id: int, query_embedding: list[float], top_k=3):
+    collection = get_chroma_collection()
     try:
         results = collection.query(
             query_embeddings=[query_embedding],
@@ -56,8 +49,10 @@ def query_documents(tenant_id: int, query_embedding: list[float], top_k=3):
 
 # Optional utility functions for local testing/debug
 def count_documents():
+    collection = get_chroma_collection()
     return collection.count()
 
 def clear_documents():
+    collection = get_chroma_collection()
     collection.delete(where={})
     print("Cleared all documents from collection.")
