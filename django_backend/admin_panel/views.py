@@ -16,16 +16,17 @@ def upload_faq_view(request):
             reader = csv.DictReader(io.StringIO(decoded_file))
             try:
                 faqs = []
+                embed_faqs(int(tenant_id), faqs)
                 for row in reader:
                     question = row["question"].strip()
                     answer = row.get("answer", "").strip()
                     FAQ.objects.create(question=question, answer=answer, tenant_id=tenant_id)
                     faqs.append({"question": question, "answer": answer})  # changed from just question
 
-                embed_faqs(int(tenant_id), faqs)
+                
                 return render(request, "upload_success.html", {"tenant_id": tenant_id, "count": len(faqs)})
-            except:
-                return render("Some Error Occured")
+            except Exception as e:
+                return render(request, "error.html", {"error": str(e)})
     else:
         form = FAQUploadForm()
 
