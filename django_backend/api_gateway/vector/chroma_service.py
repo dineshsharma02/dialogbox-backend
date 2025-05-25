@@ -23,14 +23,14 @@ def get_chroma_collection():
 
 
 
-def add_documents(tenant_id: str, docs: list[str], embeddings: list[list[float]], ids: list[str]):
+def add_documents(tenant_id: int, docs: list[str], embeddings: list[list[float]], ids: list[str]):
     collection = get_chroma_collection()
     metadatas = [{"tenant_id": tenant_id} for _ in docs]
     collection.add(documents=docs, embeddings=embeddings, metadatas=metadatas, ids=ids)
     print("Documents added. Current count:", collection.count())
 
 
-def query_documents(tenant_id: int, query_embedding: list[float], top_k=3):
+def query_documents(tenant_id: int, query_embedding: list[float], top_k=10):
     collection = get_chroma_collection()
     try:
         results = collection.query(
