@@ -41,6 +41,7 @@ async def generate_response(payload: LLMRequest):
                 {"role": "user", "content": payload.prompt}
             ]
         )
-        return clean_llm_output(response.choices[0].message.content.strip())
+        # return clean_llm_output(response.choices[0].message.content.strip())
+        return response.choices[0].message.content.strip()
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

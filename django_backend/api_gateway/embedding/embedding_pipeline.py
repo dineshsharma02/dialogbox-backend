@@ -4,7 +4,7 @@ from api_gateway.embedding.embedding_service import embed_text
 
 USE_REMOTE_EMBEDDING = os.getenv("USE_REMOTE_EMBEDDING", "false").lower() == "true"
 
-def embed_faqs(tenant_id: str, faqs: list[dict]):
+def embed_faqs(tenant_id: int, faqs: list[dict]):
     """
     Each item in `faqs` should be a dict with 'question', 'answer', and 'id'.
     This function embeds "Q: ... A: ..." and stores it in Chroma.
@@ -32,7 +32,7 @@ def embed_faqs(tenant_id: str, faqs: list[dict]):
         embeddings = embed_text(docs, is_query=False)
 
     # Step 4: Add to Chroma
-    add_documents(tenant_id, docs, embeddings, ids)
+    add_documents(int(tenant_id), docs, embeddings, ids)
 
     return {
         "added_count": len(docs),

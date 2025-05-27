@@ -14,8 +14,8 @@ export const ChatWidget = () => {
 
   const cleanMessage = (text?: string) => {
     if (!text) return "";
-    return text.replace(/^["“”']+|["“”']+$/g, "");
-  };
+    return text.replace(/^["“”']+|["“”']+$/g, "").trim();
+};
 
   // const tenantId = new URLSearchParams(window.location.search).get("t") || ""
   const tenantId = 1;
@@ -34,9 +34,10 @@ export const ChatWidget = () => {
         body: JSON.stringify({ question: input.trim() }),
       });
       const data = await res.json();
+      
       const rawAnswer = data?.data?.final_answer;
       const answer = Array.isArray(rawAnswer)
-        ? rawAnswer[0] || "Sorry, I couldn't find an answer."
+        ? rawAnswer.join("").trim()
         : rawAnswer || "Sorry, I couldn't find an answer.";
       setMessages((prev) => [...prev, { sender: "bot", text: answer }]);
     } catch (err) {
