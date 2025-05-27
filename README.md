@@ -38,3 +38,10 @@ Built for startups and support teams who want plug-and-play automation — witho
 4. **Retrieval** → Query is embedded + used to fetch top-K documents
 5. **LLM Response** → Retrieved context passed to LLM for generation
 6. **Response** → Sent back and rendered in chat
+
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## 📝 License
+
+MIT © 2025 DialogBox
