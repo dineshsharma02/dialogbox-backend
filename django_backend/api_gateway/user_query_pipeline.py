@@ -33,7 +33,7 @@ def process_user_query(question: str, tenant_id: int):
     
 
     context_docs = [item["text"] for item in ranked_results]
-    prompt = build_prompt(query=cleaned, context_docs=context_docs)
+    prompt = build_prompt(query=cleaned, context_docs=context_docs, tenant_id = tenant_id)
     final_answer = generate_answer(prompt)
 
 
