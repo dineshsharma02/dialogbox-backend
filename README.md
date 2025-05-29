@@ -1,4 +1,4 @@
-# 💬 DialogBox — AI Chat Widget for Support Automation (Work in progress)
+# 💬 DialogBox — AI Chat Widget for Chat Automation (Work in progress)
 
 Built for startups and support teams who want plug-and-play automation — without sacrificing control, branding, or performance.
 
