@@ -7,10 +7,14 @@ from .models import Tenant, CompanyCategory
 @admin.register(Tenant)
 
 class TenantAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "category", "created_at")
+    list_display = ("id", "name", "category", "short_instructions")
     list_filter = ("category",)
     search_fields = ("id", "name")
-    fields = (..., "category", "instructions")
+    fields = ("category", "instructions")
+
+    def short_instructions(self, obj):
+        return (obj.instructions[:60]+"...") if obj.instructions and len(obj.instructions) > 60 else (obj.instructions or "")
+    short_instructions.short_description = "Instructions (preview)"
 
     
 @admin.register(CompanyCategory)
