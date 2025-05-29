@@ -170,7 +170,7 @@ Respond in a full answer, not just an introduction.
 def generate_answer(prompt: str, model: str = DEFAULT_MODEL):
     if USE_REMOTE_LLM:
         try:
-            response = requests.post("http://llm:9002/generate", json={
+            response = requests.post("http://localhost:9002/generate", json={
                 "prompt": prompt,
                 "model": model
             })
