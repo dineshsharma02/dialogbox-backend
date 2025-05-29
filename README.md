@@ -45,4 +45,3 @@ Built for startups and support teams who want plug-and-play automation — witho
 ## 📝 License
 
 MIT © 2025 DialogBox
-

@@ -11,7 +11,7 @@ load_dotenv(dotenv_path=env_path)
 def get_chroma_collection():
     USE_HTTP = os.getenv("USE_CHROMA_HTTP", "false").lower() == "true"
     if USE_HTTP:
-        client = HttpClient(host="chroma", port=8000)  # Docker hostname
+        client = HttpClient(host="localhost", port=8000)  # Docker hostname
     else:
         BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
         CHROMA_PATH = os.path.join(BASE_DIR, "chroma_store")
