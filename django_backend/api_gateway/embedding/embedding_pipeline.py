@@ -19,7 +19,7 @@ def embed_faqs(tenant_id: int, faqs: list[dict]):
     # Step 3: Embed the documents
     if USE_REMOTE_EMBEDDING:
         try:
-            response = requests.post("http://embedding_service:9001/embed", json={
+            response = requests.post("http://localhost:9001/embed", json={
                 "texts": docs,
                 "is_query": False
             })

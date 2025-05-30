@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactMarkDown from 'react-markdown'
 
 const API_URL = "http://localhost:8080/user/query"; // to be adjusted for prod
 
@@ -16,6 +17,12 @@ export const ChatWidget = () => {
     if (!text) return "";
     return text.replace(/^["“”']+|["“”']+$/g, "").trim();
 };
+
+  function formatMessage(text: string) {
+  // Convert all single \n to markdown line breaks (two spaces + \n)
+  // This will make react-markdown render each \n as a <br/>
+  return text.replace(/\\n/g, "\n");
+}
 
   // const tenantId = new URLSearchParams(window.location.search).get("t") || ""
   const tenantId = 1;
@@ -84,7 +91,11 @@ export const ChatWidget = () => {
               }`}
               style={{ maxWidth: "80%" }}
             >
-              {cleanMessage(message.text)}
+              
+              <ReactMarkDown
+                children={formatMessage(cleanMessage(message.text))}
+              />
+              
             </div>
           </div>
         ))}

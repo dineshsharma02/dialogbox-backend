@@ -23,13 +23,13 @@ def process_user_query(question: str, tenant_id: int):
     retrieval = retrieve_top_k_answers(cleaned, tenant_id)
     ranked_results = rank_results(retrieval, threshold=0.35)
    
-    if not ranked_results:
-        return {
-            "query": cleaned,
-            "answer": "Sorry, I couldn’t find any relevant answer based on current information.",
-            "context_used": [],
-            "status": "no_match"
-    }
+    # if not ranked_results:
+    #     return {
+    #         "query": cleaned,
+    #         "answer": "Sorry, I couldn’t find any relevant answer based on current information.",
+    #         "context_used": [],
+    #         "status": "no_match"
+    # }
     
 
     context_docs = [item["text"] for item in ranked_results]

@@ -44,6 +44,7 @@ def build_prompt(query: str, context_docs: list[str], tenant_id) -> str:
 
     User Question:
     {query}
+    Respond in a friendly and clear tone.
 """
 
 
