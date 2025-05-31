@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import ReactMarkDown from 'react-markdown'
+import { useState, useEffect, useRef } from "react";
+
+import MessageItem from "./MessageItem";
 
 const API_URL = "http://localhost:8080/user/query"; // to be adjusted for prod
 
@@ -13,16 +14,9 @@ export const ChatWidget = () => {
   const [loading, setLoading] = useState(false);
   const chatBoxRef = useRef<HTMLDivElement>(null);
 
-  const cleanMessage = (text?: string) => {
-    if (!text) return "";
-    return text.replace(/^["“”']+|["“”']+$/g, "").trim();
-};
 
-  function formatMessage(text: string) {
-  // Convert all single \n to markdown line breaks (two spaces + \n)
-  // This will make react-markdown render each \n as a <br/>
-  return text.replace(/\\n/g, "\n");
-}
+
+  
 
   // const tenantId = new URLSearchParams(window.location.search).get("t") || ""
   const tenantId = 1;
@@ -77,27 +71,9 @@ export const ChatWidget = () => {
         className="flex-1 px-3 py-4 space-y-2 overflow-y-auto"
       >
         {messages.map((message: ChatMessage, i: number) => (
-          <div
-            key={i}
-            className={`flex ${
-              message.sender === "user" ? "justify-end" : "justify-start"
-            }`}
-          >
-            <div
-              className={`px-4 py-2 text-[15px] leading-relaxed whitespace-pre-wrap rounded-xl shadow-sm ${
-                message.sender === "user"
-                  ? "bg-[#dcf8c6] text-black rounded-br-none"
-                  : "bg-white text-gray-900 rounded-bl-none"
-              }`}
-              style={{ maxWidth: "80%" }}
-            >
-              
-              <ReactMarkDown
-                children={formatMessage(cleanMessage(message.text))}
-              />
-              
-            </div>
-          </div>
+          
+            <MessageItem message={message} i = {i}/>
+          
         ))}
 
         {loading && (
