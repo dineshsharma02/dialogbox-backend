@@ -31,6 +31,7 @@ const MessageItem = ({message, i}:MessageItemProps) => {
                 : "bg-white text-gray-900 rounded-bl-none"
             }`}
             style={{ maxWidth: "80%" }}
+            key = {i}
         >
             <ReactMarkDown children={formatMessage(cleanMessage(message.text))} />
         </div>
